@@ -1,9 +1,9 @@
 # News Article Summarizer (n8n Workflow)
 
-![License](https://img.shields.io/github/license/Mintberry1628/youtube-playlist-summarizer-n8n)
-![Languages](https://img.shields.io/github/languages/top/Mintberry1628/youtube-playlist-summarizer-n8n)
+![License](https://img.shields.io/github/license/Mintberry1628/news-article-summarizer-n8n)
+![Languages](https://img.shields.io/github/languages/top/Mintberry1628/news-article-summarizer-n8n)
 ![Platform](https://img.shields.io/badge/platform-RaspberryPi-green)
-![Last Commit](https://img.shields.io/github/last-commit/Mintberry1628/youtube-playlist-summarizer-n8n)
+![Last Commit](https://img.shields.io/github/last-commit/Mintberry1628/news-article-summarizer-n8n)
 
 
 This project demonstrates how to automatically summarize new news articles or web content collected in Notion using n8n. Summaries are delivered directly to your Telegram account.
