@@ -1,0 +1,186 @@
+{
+  "name": "(News) Article Summarizer",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "databaseId": {
+          "__rl": true,
+          "value": "YOUR NOTION DATABASE ID",
+          "mode": "list",
+          "cachedResultName": "YOUR NOTION DATABASE NAME",
+          "cachedResultUrl": "YOUR NOTION DATABASE URL"
+        }
+      },
+      "id": "51747af2-4ac0-4e62-a8d1-2f85cdf3fd10",
+      "name": "New Notion Page Trigger",
+      "type": "n8n-nodes-base.notionTrigger",
+      "typeVersion": 1,
+      "position": [
+        760,
+        200
+      ],
+      "credentials": {
+        "notionApi": {
+          "id": "YOUR NOTION API",
+          "name": "Notion account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "222edca4-6d83-4209-b776-c9dde10a9087",
+              "name": "=link",
+              "value": "={{ $json.URL }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "c28155ec-111d-43e7-8758-9efbe6b25c85",
+      "name": "Extract URL from Notion",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        980,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://r.jina.ai/{{ $json.link }}?m=extract",
+        "options": {}
+      },
+      "id": "e0031310-1d80-41c1-8d8b-5e4aae6d8fe3",
+      "name": "Fetch Article Content",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1200,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Du bist ein deutscher Zusammenfassungs-Assistent. Schreib zuerst das Wort \"Titel:\" dann den Titel des Artikels hin, danach eine Leerzeile, dann das Wort \"Inhalt:\" und fasse darunter den Artikel in 7-10 Sätzen zusammen:  {{ $json.data }}",
+              "role": "assistant"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "7127049e-feff-4c4b-95ac-3e01ff3aa944",
+      "name": "Summarize Article (OpenAI)",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.2,
+      "position": [
+        1420,
+        200
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "YOUR OPENAI API",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "YOUR TELEGRAM CHAT ID",
+        "text": "=📰 Neue Zusammenfassung:\n {{ $json.message.content }}",
+        "additionalFields": {}
+      },
+      "id": "c362d34c-02f0-4d72-98af-0309b816329c",
+      "name": "Send Summary to Telegram",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [
+        1800,
+        200
+      ],
+      "credentials": {
+        "telegramApi": {
+          "id": "YOUR TELEGRAM API",
+          "name": "Telegram account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "New Notion Page Trigger": {
+      "main": [
+        [
+          {
+            "node": "Extract URL from Notion",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract URL from Notion": {
+      "main": [
+        [
+          {
+            "node": "Fetch Article Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Article Content": {
+      "main": [
+        [
+          {
+            "node": "Summarize Article (OpenAI)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summarize Article (OpenAI)": {
+      "main": [
+        [
+          {
+            "node": "Send Summary to Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "a2bc1891-9a56-4d28-826f-3f409726f973",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "aeb458b20e713d5817b125787f16434360a4842a7df99fb7178135d5cd572fee"
+  },
+  "id": "TEST ID",
+  "tags": []
+}
