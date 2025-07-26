@@ -70,9 +70,9 @@ This n8n workflow:
 1. Clone or download this repository.
 2. Import the News_Article_Summarizer.json file into your n8n instance.
 3. Set up credentials in n8n:
-	• Notion API key and database ID
-	• OpenAI (or alternative) API key
-	• Telegram bot token and chat ID
+ 	- Notion API key and database ID
+ 	- OpenAI (or alternative) API key
+ 	- Telegram bot token and chat ID
 4. Set your desired Notion database in the trigger node.
 5. (Optional) Adjust prompt or summary length as needed.
 
