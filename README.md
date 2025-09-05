@@ -82,11 +82,11 @@ Receive **concise, structured summaries** of new articles, blog posts, or links 
 
 ```mermaid
 flowchart LR
-A[Notion Trigger] --> B[Extract URL]
-B --> C[Web Extraction API]
-C --> D[Summarize (OpenAI)]
-D --> E[Format Message]
-E --> F[Telegram: sendMessage]
+A["Notion Trigger"] --> B["Extract URL"]
+B --> C["Web Extraction API"]
+C --> D["Summarize via LLM"]
+D --> E["Format Message"]
+E --> F["Telegram: sendMessage"]
 ```
 
 ---
